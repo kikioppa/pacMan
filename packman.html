@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<style>
+
+    body {
+        background-color: black;
+    }
+    body >div {
+        margin: 120px auto;
+        text-align: center;
+    }
+
+    .tile{
+
+        width:50px;
+        height: 50px;
+
+        display: inline-block;
+        vertical-align: top;
+
+    }
+
+
+    .block{
+        background-color: #0000FF;
+        border: 2px;
+    }
+    .coin{
+        background-color: yellow;
+        border-radius: 50%;
+        transform :scale(0.3);
+    }
+    .pacMan{
+        background-color:#ff9999;
+    }
+
+</style>
+
+
+
+<body>
+
+<div class = "tile block"></div>
+<div class = "tile coin"></div>
+<div class = "tile pacMan" id = tile pacMan></div>
+</body>
+
+
+<script>
+
+
+    let arr = [ [0,0,0,0,0,0,0,0,0,0],
+                [0,1,1,1,0,0,0,0,1,0],
+                [0,1,0,1,1,1,1,1,1,0],
+                [0,1,0,0,1,0,1,0,0,0],
+                [0,1,0,0,1,0,1,0,0,0],
+                [0,1,0,0,1,0,1,0,0,0],
+                [0,1,0,0,1,0,1,0,0,0],
+                [0,1,0,0,1,0,1,0,0,0],
+                [0,1,0,0,1,0,1,0,0,0]]
+
+
+    function getArr() {
+            for(let i = 0; i <arr.length; i++){
+                console.log(i)
+            }
+    }
+
+    getArr()
+
+
+    const pacMan = document.getElementById("pacMan")
+    
+    pacMan.addEventListener("keyup",movePac);
+    
+    function movePac() {
+        console.ggg
+    }
+
+</script>
+</html>
