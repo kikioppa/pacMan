@@ -10,14 +10,15 @@
     body {
         background-color: black;
     }
-    body >div {
-        margin: 120px auto;
-        text-align: center;
+
+    body > div {
+        margin: 50px auto;
+        /*  text-align: center;*/
     }
 
-    .tile{
+    .tile {
 
-        width:50px;
+        width: 50px;
         height: 50px;
 
         display: inline-block;
@@ -26,61 +27,186 @@
     }
 
 
-    .block{
+    .block {
         background-color: #0000FF;
         border: 2px;
+        outline: 1px dotted #ff9999;
     }
-    .coin{
+
+    .coin {
         background-color: yellow;
         border-radius: 50%;
-        transform :scale(0.3);
+        transform: scale(0.3);
     }
-    .pacMan{
-        background-color:#ff9999;
+
+    .coined{
+        background-color: #000000;
+        border: 2px;
+    }
+
+    .pacMan {
+        background-color: #ff9999;
     }
 
 </style>
 
 
-
 <body>
-
-<div class = "tile block"></div>
-<div class = "tile coin"></div>
-<div class = "tile pacMan" id = tile pacMan></div>
+<div class=main_wp id="main_wp">
+    <!--<div class = "tile block"></div>
+    <div class = "tile coin"></div>
+    <div class = "tile pacMan" id = tile pacMan></div>-->
+</div>
 </body>
 
 
 <script>
 
 
-    let arr = [ [0,0,0,0,0,0,0,0,0,0],
-                [0,1,1,1,0,0,0,0,1,0],
-                [0,1,0,1,1,1,1,1,1,0],
-                [0,1,0,0,1,0,1,0,0,0],
-                [0,1,0,0,1,0,1,0,0,0],
-                [0,1,0,0,1,0,1,0,0,0],
-                [0,1,0,0,1,0,1,0,0,0],
-                [0,1,0,0,1,0,1,0,0,0],
-                [0,1,0,0,1,0,1,0,0,0]]
+    let data = [
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 1, 1, 1, 0, 0, 0, 0, 1, 0],
+        [0, 1, 0, 1, 1, 1, 1, 1, 1, 0],
+        [0, 1, 0, 0, 1, 0, 1, 0, 0, 0],
+        [0, 3, 0, 0, 1, 0, 1, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    ]
+    let main_wp = document.getElementById("main_wp")
 
 
-    function getArr() {
-            for(let i = 0; i <arr.length; i++){
-                console.log(i)
+
+    function addBlock() {
+        let bbs = document.createElement("div")
+        bbs.className = "tile block"
+        main_wp.appendChild(bbs)
+    }
+
+    function addCoin() {
+        let bcs = document.createElement("div")
+        bcs.className = "tile coin"
+        main_wp.appendChild(bcs)
+    }
+
+    function pacMan() {
+        let pckm = document.createElement("div")
+        pckm.className = "tile pacMan"
+        main_wp.appendChild(pckm)
+    }
+
+
+    function drawMap() {
+
+        /*main_wp.innerHTML = '';*/
+        for (let y = 0; y < data.length; y++) {
+            for (let x = 0; x < data[y].length; x++) {
+                 if (data[y][x] === 0) {
+                     addBlock()
+                 } else if (data[y][x] === 1) {
+                     addCoin()
+                 }
+                 else if (data[y][x] === 3) {
+                     pacMan()
+                 }
+               /*  else if (map[y][x] === 4) {
+                     main.innerHTML += "<div class='ghost'></div>";
+                 }
+                 else if (map[y][x] === 5) {
+                     main.innerHTML += "<div class='pacman'></div>";
+                 }*/
+
             }
+            main_wp.innerHTML += '<br>';
+        }
     }
 
-    getArr()
+    drawMap();
 
 
-    const pacMan = document.getElementById("pacMan")
-    
-    pacMan.addEventListener("keyup",movePac);
-    
-    function movePac() {
-        console.ggg
+
+    document.onkeydown = function(event) {
+        // console.log(event);
+        if (event.keyCode === 37) { // PACMAN MOVE LEFT
+            if (data[pacMan.y][pacMan.x - 1] !== 1) {
+                data[pacMan.y][pacMan.x] = 3;
+                pacMan.x = pacMan.x - 1;
+                data[pacMan.y][pacMan.x] = 5;
+                drawMap();
+            }
+        }
     }
+
+
+
+
+
+
+
+    /*   arr.map(function (arr) {
+           if (arr[0][1] == 0) {
+               return person
+           } else {
+               return null
+           }
+       });
+   */
+
+
+    /*const pacMan = document.getElementById("pacMan")*/
+
+    /*  pacMan.addEventListener("keyup",movePac);*/
+    /*
+     function moveUp() {
+         console.ggg
+     }
+
+     function moveDown() {
+         console.ggg
+     }
+     function moveLeft() {
+         console.ggg
+     }
+     function moveRight() {
+         console.ggg
+     }*/
+
+
+
+
+
+
+
+
+
+/*merge*/
+
+/*    function addCell(cell_data) {
+        let bcs = document.createElement("div")
+        let class_name = 'tile ';
+        if (cell_data === 1) {
+            class_name += 'coin';
+        } else if(cell_data === 0) {
+            class_name += 'block';
+        }
+        bcs.className = class_name
+        main_wp.appendChild(bcs)
+    }
+
+    function drawMap() {
+
+
+        for (let y = 0; y < data.length; y++) {
+            for (let x = 0; x < data[y].length; x++) {
+                addCell(data[y][x]);
+            }
+        }
+    }*/
+
 
 </script>
+
+
+
+
+
+
 </html>
