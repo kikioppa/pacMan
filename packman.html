@@ -39,10 +39,12 @@
         transform: scale(0.3);
     }
 
-    .coined{
-        background-color: #000000;
-        border: 2px;
+    .blank {
+        width: 50px;
+        height: 50px;
+        background-color: #00B7FF;
     }
+
 
     .pacMan {
         background-color: #ff9999;
@@ -63,6 +65,18 @@
 <script>
 
 
+    const WALL = 0;
+    const COIN = 1;
+    const PACMANC = 3;
+    const BLANK = 4;
+
+
+    let pacman = {
+        x: 1,
+        y: 4
+    }
+
+
     let data = [
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 1, 1, 1, 0, 0, 0, 0, 1, 0],
@@ -75,45 +89,29 @@
 
 
 
-    function addBlock() {
-        let bbs = document.createElement("div")
-        bbs.className = "tile block"
-        main_wp.appendChild(bbs)
-    }
-
-    function addCoin() {
+    function addCell(cell_data) {
         let bcs = document.createElement("div")
-        bcs.className = "tile coin"
+        let class_name = 'tile ';
+        if (cell_data === COIN) {
+            class_name += 'coin';
+        } else if(cell_data === WALL) {
+            class_name += 'block';
+        } else if(cell_data === BLANK) {
+            class_name += 'blank';
+        } else if(cell_data === PACMANC) {
+            class_name += 'pacMan';
+        }
+        bcs.className = class_name
         main_wp.appendChild(bcs)
     }
 
-    function pacMan() {
-        let pckm = document.createElement("div")
-        pckm.className = "tile pacMan"
-        main_wp.appendChild(pckm)
-    }
 
-
-    function drawMap() {
+    function drawMap(pacman) {
 
         /*main_wp.innerHTML = '';*/
         for (let y = 0; y < data.length; y++) {
             for (let x = 0; x < data[y].length; x++) {
-                 if (data[y][x] === 0) {
-                     addBlock()
-                 } else if (data[y][x] === 1) {
-                     addCoin()
-                 }
-                 else if (data[y][x] === 3) {
-                     pacMan()
-                 }
-               /*  else if (map[y][x] === 4) {
-                     main.innerHTML += "<div class='ghost'></div>";
-                 }
-                 else if (map[y][x] === 5) {
-                     main.innerHTML += "<div class='pacman'></div>";
-                 }*/
-
+              addCell(data[y][x])
             }
             main_wp.innerHTML += '<br>';
         }
@@ -125,18 +123,49 @@
 
     document.onkeydown = function(event) {
         // console.log(event);
-        if (event.keyCode === 37) { // PACMAN MOVE LEFT
-            if (data[pacMan.y][pacMan.x - 1] !== 1) {
-                data[pacMan.y][pacMan.x] = 3;
-                pacMan.x = pacMan.x - 1;
-                data[pacMan.y][pacMan.x] = 5;
-                drawMap();
+        if (event.keyCode === 37) { // 왼
+            if (data[pacman.y][pacman.x - 1] !==WALL) {
+                data[pacman.y][pacman.x] = BLANK;
+                pacman.x = pacman.x - 1;
+                data[pacman.y][pacman.x] = PACMANC;
+                console.log(pacman)
+                return pacman;
+
+            }
+        }
+
+        else if (event.keyCode === 38){ // 위
+            if ( data[pacman.y-1][pacman.x] !== WALL){
+                data[pacman.y][pacman.x] = BLANK;
+                pacman.y = pacman.y -1;
+                data[pacman.y][pacman.x] = PACMANC;
+                console.log(pacman)
+                return pacman;
+
+            }
+        }
+        else if (event.keyCode === 39){ // 오른쪽
+            if ( data[pacman.y][pacman.x+1] !== WALL){
+                data[pacman.y][pacman.x] = BLANK;
+                pacman.x = pacman.x + 1;
+                data[pacman.y][pacman.x] = PACMANC;
+                console.log(pacman)
+                return pacman;
+            }
+        }
+        else if (event.keyCode === 40){ // 아래
+            if ( data[pacman.y+1][pacman.x] !== WALL){
+                data[pacman.y][pacman.x] = BLANK;
+                pacman.y = pacman.y + 1;
+                data[pacman.y][pacman.x] = PACMANC;
+                console.log(pacman)
+                return pacman;
             }
         }
     }
 
 
-
+    const pacMan = document.getElementById("pacMan")
 
 
 
