@@ -55,9 +55,7 @@
 
 <body>
 <div class=main_wp id="main_wp">
-    <!--<div class = "tile block"></div>
-    <div class = "tile coin"></div>
-    <div class = "tile pacMan" id = tile pacMan></div>-->
+
 </div>
 </body>
 
@@ -86,32 +84,73 @@
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
     ]
     let main_wp = document.getElementById("main_wp")
+    let getPacMan = document.getElementById("tile pacMan")
 
+    function checkCoin() {
+        if(data){
 
-
-    function addCell(cell_data) {
-        let bcs = document.createElement("div")
-        let class_name = 'tile ';
-        if (cell_data === COIN) {
-            class_name += 'coin';
-        } else if(cell_data === WALL) {
-            class_name += 'block';
-        } else if(cell_data === BLANK) {
-            class_name += 'blank';
-        } else if(cell_data === PACMANC) {
-            class_name += 'pacMan';
         }
-        bcs.className = class_name
-        main_wp.appendChild(bcs)
     }
 
 
-    function drawMap(pacman) {
+    function addBlock(x, y) {
+        let bbs = document.createElement("div")
+        bbs.className = "tile block"
+        bbs.id = x + "_" + y
+        main_wp.appendChild(bbs)
+    }
 
-        /*main_wp.innerHTML = '';*/
+    function addCoin(x, y) {
+        let bcs = document.createElement("div")
+        bcs.className = "tile coin"
+        bcs.id = x + "_" + y
+        main_wp.appendChild(bcs)
+    }
+
+    function pacMan(x, y) {
+        let pcm = document.createElement("div")
+        pcm.className = "tile pacMan"
+        pcm.id =x + "_" + y
+        main_wp.appendChild(pcm)
+    }
+
+    function blank(x, y) {
+        let blank = document.createElement("div")
+        blank.className = "tile blank"
+        blank.id =x + "_" + y
+        main_wp.appendChild(blank)
+    }
+
+
+/*    function finish() {
         for (let y = 0; y < data.length; y++) {
             for (let x = 0; x < data[y].length; x++) {
-              addCell(data[y][x])
+                if (data[y][x] === COIN) {
+                    return;
+                }
+            }
+        }
+        alert('assddsd')
+    }*/
+
+    let coin_ = 0
+    function drawMap() {
+        coin_ = 0
+        for (let y = 0; y < data.length; y++) {
+            for (let x = 0; x < data[y].length; x++) {
+                if (data[y][x] === WALL) {
+                    addBlock(x, y)
+                } else if (data[y][x] === COIN) {
+                    addCoin(x, y)
+                    coin_++
+                }
+                else if (data[y][x] === PACMANC) {
+                    pacMan(x, y)
+                }
+                else if (data[y][x]===BLANK){
+                    blank(x, y)
+                }
+
             }
             main_wp.innerHTML += '<br>';
         }
@@ -120,16 +159,18 @@
     drawMap();
 
 
-
     document.onkeydown = function(event) {
         // console.log(event);
         if (event.keyCode === 37) { // 왼
             if (data[pacman.y][pacman.x - 1] !==WALL) {
                 data[pacman.y][pacman.x] = BLANK;
+                document.getElementById(pacman.x + '_' + pacman.y).className = 'tile blank'
                 pacman.x = pacman.x - 1;
+                if (data[pacman.y][pacman.x] === COIN) coin_--
                 data[pacman.y][pacman.x] = PACMANC;
+                document.getElementById(pacman.x + '_' + pacman.y).className = 'tile pacMan'
+
                 console.log(pacman)
-                return pacman;
 
             }
         }
@@ -137,35 +178,51 @@
         else if (event.keyCode === 38){ // 위
             if ( data[pacman.y-1][pacman.x] !== WALL){
                 data[pacman.y][pacman.x] = BLANK;
+                document.getElementById(pacman.x + '_' + pacman.y).className = 'tile blank'
                 pacman.y = pacman.y -1;
+                if (data[pacman.y][pacman.x] === COIN) coin_--
                 data[pacman.y][pacman.x] = PACMANC;
+                document.getElementById(pacman.x + '_' + pacman.y).className = 'tile pacMan'
                 console.log(pacman)
-                return pacman;
+                console.log(data)
 
             }
         }
         else if (event.keyCode === 39){ // 오른쪽
             if ( data[pacman.y][pacman.x+1] !== WALL){
                 data[pacman.y][pacman.x] = BLANK;
+                document.getElementById(pacman.x + '_' + pacman.y).className = 'tile blank'
                 pacman.x = pacman.x + 1;
+                if (data[pacman.y][pacman.x] === COIN) coin_--
                 data[pacman.y][pacman.x] = PACMANC;
+                document.getElementById(pacman.x + '_' + pacman.y).className = 'tile pacMan'
                 console.log(pacman)
-                return pacman;
+
+
             }
         }
         else if (event.keyCode === 40){ // 아래
             if ( data[pacman.y+1][pacman.x] !== WALL){
                 data[pacman.y][pacman.x] = BLANK;
+                document.getElementById(pacman.x + '_' + pacman.y).className = 'tile blank'
                 pacman.y = pacman.y + 1;
+                if (data[pacman.y][pacman.x] === COIN) coin_--
                 data[pacman.y][pacman.x] = PACMANC;
+                document.getElementById(pacman.x + '_' + pacman.y).className = 'tile pacMan'
                 console.log(pacman)
-                return pacman;
+
+
             }
+        }
+        if (coin_ <= 0) {
+            alert('aa')
         }
     }
 
 
+/*
     const pacMan = document.getElementById("pacMan")
+*/
 
 
 
@@ -202,8 +259,13 @@
 
 
 
+/*
+    if(data[0].includes(1)!==true && data[1].includes(1)!==true &&data[2].includes(1)!==true
+        && data[3].includes(1)!==true && data[4].includes(1)!==true &&data[5].includes(1)!==true)
+    {
+        alert("게임끗")
 
-
+    }*/
 
 
 /*merge*/
